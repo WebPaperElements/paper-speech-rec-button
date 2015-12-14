@@ -1,0 +1,89 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/av-icons.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../speech-recognition/speech-recognition-behavior.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <paper-speech-rec-button></paper-speech-rec-button>
+
+@group Seed Elements
+@element paper-speech-rec-button
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="paper-speech-rec-button">
+
+<template>
+  <style>
+    :host {
+      display: block;
+      position: relative;
+    }
+    
+    .action-button-container {
+      position: relative;
+    }
+    
+    .action-button-container paper-material {
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .action-button-container paper-material paper-spinner {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+    
+  </style>
+  <div class="action-button-container">
+    <paper-material id="materialContainer" elevation="[[_cptElevation(isListening)]]" animated>
+      <paper-spinner active="[[isListening]]"></paper-spinner>
+      <paper-icon-button icon="av:mic" on-tap="_onToggleListening"></paper-icon-button>
+    <paper-material>
+  </div>
+</template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'paper-speech-rec-button',
+
+    behaviors: [
+      WebCoreElem.SpeechRecognitionBehavior
+    ],
+
+    properties: {
+    },
+    
+    _cptElevation: function (isListening) {
+      if (isListening) {
+        return 3;
+      }  else {
+        return 0;
+      }
+    },
+    
+    _onToggleListening: function () {
+      if (!this.isListening) {
+        this.start();
+      } else {
+        this.stop();
+      }
+    },
+  });
+
+</script>
